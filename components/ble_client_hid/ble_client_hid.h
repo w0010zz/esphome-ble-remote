@@ -15,7 +15,7 @@ namespace esphome {
 namespace ble_client_hid {
 
 namespace espbt=esphome::esp32_ble_tracker;
-
+#undef CONFIGURED
 enum class HIDState {
   // Initial state
   INIT,
