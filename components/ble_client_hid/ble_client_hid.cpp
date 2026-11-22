@@ -237,6 +237,13 @@ void BLEClientHID::send_input_report_event(esp_ble_gattc_cb_param_t *p_data) {
     return;
   }
   for (HIDReportItemValue value : hid_report_values) {
+    // Expose joystick axes as continuous sensors (Generic Desktop: X=0x30/48, Y=0x31/49)
+    if (value.usage.page == 1 && value.usage.usage == 48 && this->x_axis_sensor != nullptr) {
+      this->x_axis_sensor->publish_state(value.value);
+    }
+    if (value.usage.page == 1 && value.usage.usage == 49 && this->y_axis_sensor != nullptr) {
+      this->y_axis_sensor->publish_state(value.value);
+    }
     std::string usage;
     if (USAGE_PAGES.count(value.usage.page) > 0 &&
         USAGE_PAGES.at(value.usage.page).usages_.count(value.usage.usage) > 0) {
@@ -274,6 +281,14 @@ void BLEClientHID::register_last_event_value_sensor(
 
 void BLEClientHID::register_battery_sensor(sensor::Sensor *battery_sensor) {
   this->battery_sensor = battery_sensor;
+}
+
+void BLEClientHID::register_x_axis_sensor(sensor::Sensor *x_axis_sensor) {
+  this->x_axis_sensor = x_axis_sensor;
+}
+
+void BLEClientHID::register_y_axis_sensor(sensor::Sensor *y_axis_sensor) {
+  this->y_axis_sensor = y_axis_sensor;
 }
 
 void BLEClientHID::register_last_event_usage_text_sensor(
