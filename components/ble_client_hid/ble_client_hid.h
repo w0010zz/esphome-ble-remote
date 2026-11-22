@@ -80,6 +80,8 @@ class BLEClientHID : public Component, public ble_client::BLEClientNode {
   void register_last_event_code_text_sensor(text_sensor::TextSensor *last_event_code_text_sensor);
   void register_last_event_value_sensor(sensor::Sensor *last_event_value_sensor);
   void register_battery_sensor(sensor::Sensor * battery_sensor);
+  void register_x_axis_sensor(sensor::Sensor *x_axis_sensor);
+  void register_y_axis_sensor(sensor::Sensor *y_axis_sensor);
   void configure_hid_client();
   
  protected:
@@ -94,6 +96,8 @@ class BLEClientHID : public Component, public ble_client::BLEClientNode {
   text_sensor::TextSensor *last_event_code_text_sensor = nullptr;
   sensor::Sensor *last_event_value_sensor = nullptr;
   sensor::Sensor *battery_sensor = nullptr;
+  sensor::Sensor *x_axis_sensor = nullptr;
+  sensor::Sensor *y_axis_sensor = nullptr;
   HIDState hid_state = HIDState::INIT;
   uint16_t battery_handle;
   uint16_t vendor_id;
